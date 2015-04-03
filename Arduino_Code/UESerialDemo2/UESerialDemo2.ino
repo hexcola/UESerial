@@ -1,16 +1,12 @@
-#include <Servo.h>
-
-Servo myServo;
-int servoPin = 9;
-int currentAngle;
-
+int servopin = 9; //定义数字接口9 连接伺服舵机信号线
+int pulsewidth;//定义脉宽变量
 String inputBuffer;
 
 void setup() {
+  pinMode(servopin,OUTPUT);
   // put your setup code here, to run once:
   Serial.begin(9600);
-  myServo.attach(servoPin);
-  myServo.write(90);
+  
 }
 
 void loop() {
@@ -33,17 +29,18 @@ void ProcessSignalData(String signalData)
   // get the data
   int data = signalData.substring(speratorIndex + 1).toInt();
   
-  
-  // do something here
-  // my example is 
-  if(!myServo.attached())
+  for(int i=0; i<=50; i++)
   {
-    myServo.attach(servoPin);
+    servopulse(servopin, data);
   }
   
-  if(myServo.attached() && myServo.read() != data)
-  { 
-    myServo.write(data);
-    delay(500);
-  }
+}
+
+void servopulse(int servopin, int myangle) //定义一个脉冲函数
+{
+  pulsewidth = (myangle * 11) + 500; //将角度转化为500-2480 的脉宽值
+  digitalWrite(servopin, HIGH); //将舵机接口电平至高
+  delayMicroseconds(pulsewidth);//延时脉宽值的微秒数
+  digitalWrite(servopin, LOW); //将舵机接口电平至低
+  delay(20 - pulsewidth / 1000);
 }
