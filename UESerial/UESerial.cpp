@@ -84,7 +84,7 @@ extern "C"
 		return false;
 	}
 
-	DllExport bool Write(int signal, int data)
+	DllExport bool WriteData(int signal, int data)
 	{
 		bool bIsWriteSuccessful = true;
 
@@ -108,41 +108,8 @@ extern "C"
 		return bIsWriteSuccessful;
 	}
 
-	DllExport char[] Write()
-	{
-		char text[];
-
-		return text;
-	}
-
-
-	DllExport bool WriteLine(String^ singnal)
-	{
-		bool bIsWriteSuccessful = true;
-
-		if (IsCanOperate())
-		{
-			try
-			{
-				Devices::arduino->WriteLine(singnal); // send 0 to arduino 
-				return true;
-			}
-			catch (IO::IOException^ e)
-			{
-				bIsWriteSuccessful = false;
-			}
-			catch (ArgumentException^ e)
-			{
-				bIsWriteSuccessful = false;
-			}
-		}
-
-		return bIsWriteSuccessful;
-	}
-
-
-
-
+	/*
+	// TO-DO : implement read data from arduino
 	DllExport int Read()
 	{
 		if (Devices::arduino != nullptr)
@@ -167,31 +134,7 @@ extern "C"
 
 		return 0;
 	}
-
-
-	DllExport String^ ReadLine()
-	{
-		String^ readContent = "<Empty>" ;
-
-		if (IsCanOperate())
-		{
-			try
-			{
-				readContent = Devices::arduino->ReadLine();
-			}
-			catch (IO::IOException^ e)
-			{
-
-			}
-			catch (ArgumentException^ e)
-			{
-
-			}
-		}
-
-		return readContent;
-	}
-
+	*/
 
 	DllExport void Disconnect()
 	{
@@ -200,75 +143,4 @@ extern "C"
 			Devices::arduino->Close();
 		}
 	}
-
-
-	/*
-	DllExport bool WriteByteArray(unsigned char val[])
-	{
-		bool bIsWriteSuccessful = true;
-
-		if (IsCanOperate())
-		{
-			try
-			{
-				array<unsigned char>^ test = gcnew array<unsigned char>(10){ 1, 2, 3 };
-
-				//Devices::arduino->Write(val, 0, 1);
-				Devices::arduino->Write(test, 0, 0);
-				
-			}
-			catch (IO::IOException^ e)
-			{
-				bIsWriteSuccessful = false;
-			}
-			catch (ArgumentException^ e)
-			{
-				bIsWriteSuccessful = false;
-			}
-
-		}
-
-		return bIsWriteSuccessful;
-	}
-
-	
-	DllExport bool WriteByte(Byte val)
-	{
-	return WriteByteArray(new Byte[1] {val});
-	}
-
-	DllExport bool WriteInt16(Int16 val)
-	{
-		return true;
-	}
-
-	DllExport bool WriteInt16Array(Int16 val[])
-	{
-		return true;
-	}
-
-	DllExport bool WriteInt32(Int32 val)
-	{
-		return true;
-	}
-
-	DllExport bool WriteInt32Array(Int32 val[])
-	{
-		return true;
-	}
-
-	DllExport bool WriteFloat(float val)
-	{
-		return true;
-	}
-
-	DllExport bool WriteFloatArray(float val[])
-	{
-		return true;
-	}
-
-	DllExport bool WriteString(char val[])
-	{
-		return true;
-	}*/
 }
